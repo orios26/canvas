@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Canvas tutorial</title>
+    <script type="text/javascript">
+      function draw() {
+        var canvas = document.getElementById('tutorial');
+        if (canvas.getContext) {
+          var ctx = canvas.getContext('2d');
+          var w = window.innerWidth;
+          var h = window.innerHeight;
+          var sizeh = 50;
+          var sizew = 50;
+          console.log(w);
+          //width 717
+          console.log(h);
+          //height 967
+
+
+          var randomizer = function(){
+            return Math.floor(Math.random() * 255);
+          }
+
+          var opacity = function(){
+            return Math.random().toFixed(1);
+          }
+
+          var colorBackgroung = function(){
+            for(i =0; i < w; i+=5)
+            {
+              for(j=0; j <h; j+=5){
+                ctx.fillStyle = `rgba(${randomizer()}, ${randomizer()}, ${randomizer()}, ${0.9})`;
+                ctx.fillRect(i, j, sizeh, sizew);
+              }
+            }
+          }
+
+
+          //triangle with path
+          //filled
+          // ctx.fillStyle= 'rgba(0,0,0,1)';
+          // ctx.beginPath();
+          // ctx.moveTo(25, 25);
+          // ctx.lineTo(500, 25);
+          // ctx.lineTo(25, 500);
+          // ctx.fill();
+          //
+          // //stroked
+          // ctx.beginPath();
+          // ctx.moveTo(25, 700);
+          // ctx.lineTo(600, 700);
+          // ctx.lineTo(600, 900);
+          // ctx.closePath();
+          // ctx.stroke();
+
+          //circle time
+
+          var shitToOfCircles = function(){
+            ctx.fillStyle= 'rgba(0,0,0,1)';
+            for(var k =0; k < w; k++)
+            {
+              for(var l=0; l < h; l++)
+              {
+                ctx.beginPath();
+                var x = 25 + k * 50;
+                var y = 25 + l * 50;
+                var radius = 20;
+                var startAngle = 0;
+                var endAngle =  Math.PI + (Math.PI * l) /2;
+                var anticlockwise = k %2 !==0;
+
+                ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+
+                if (k > 1){
+                  ctx.fill();
+
+                }  else{
+                    ctx.stroke();
+                  }
+              }
+            }
+          }
+
+          setInterval(colorBackgroung, 1000);
+          setInterval(shitToOfCircles, 1000);
+
+          /*canvas rectangle functions
+          fillRect(x, y, width, height) -> draws filled rectangle
+          strokeRect(x, y, width, height) -> draws rectangular outline
+          clearRect(x, y, width, height) -> clears specified rectangular area. making it fully transparent
+          */
+
+          /*
+          Paths are list of points, connected by segments of lines that can be of different shapes, curved or not
+          we luse the draw method to draw in the path
+
+          beginPath()
+          creates a new path. Once created future drawing commands are directed into the path and used to build the path up
+
+          path methods
+          closePath()
+          adds a straight line ot the path. Going to the start of the current sub-path
+
+          stroke()
+          Draws the shape be stroking its outline
+
+          fill()
+          Draws a solid shape by filling the paths's content area.
+
+          when the current path is empty. Such as immediately afer calling beginPathor when newly creating a canvas first
+          path construction command is always treated as a moveTo()
+          for that reason you will almost always want to set your starting position after resetting a path
+
+          when you call fill(), any open shapes are closed automatically
+
+
+          moveTo(x,y)
+          can be thought of as moving a pen. Doesn't actually draw anything but positions our cursor to be moved
+
+          lineTo(x,y)
+          draws a line from the current drawing position to the position specified by x,y
+
+          to draw arcs or circles we use the arc() and arcTo() methods
+
+          arc(x, y, radius, startAngle, endAngle, anticlockwise)
+          draws an arc which is centered at x,y with radius r starting at startAngle and ending at endAngle going in
+          the given direction indicated by anticlockwise (clockwise default) boolean. true = anticlockwise
+
+          quadraticCurveTo(cp1x, cp1y, x, y )
+          draws quadratic Bezier curve from the current pen position to the end point specified by x and y,
+          using control point specified by cp1x and cp1y
+
+          bezierCurveTo(cp1x, cp1y, cpx2, cpy2, x, y)
+          draws cubic bezier curve from the current pen position to the end point specified by x and y
+          using the control points specified
+          curve is determined by both control points
+
+          rect(x, y, width, height)
+          draws a rectangle to an open path
+          when this method is called the moveTo() method is automatically called with parameters(x, y)
+          */
+
+        }
+      }
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+  </head>
+  <body onload="draw();">
+    <canvas id="tutorial" width="717" height="967"></canvas>
+  </body>
+</html>
